@@ -17,20 +17,30 @@ class LinkedList {
         LinkedList(Node* head)
         {
             this->head = head;
+            this->tail = head;
         }
         
         void setHead(Node* head){
             this->head = head;
         }
         
+        void setTail(Node* tail) {
+            this->tail = tail;
+        }
+        
         Node* getHead() {
             return head;
+        }
+        
+        Node* getTail() {
+            return tail;
         }
         
         void add(Node* newNode){
             //check for NULL head
             if (head == NULL) {
                 setHead(newNode);
+                setTail(newNode);
                 return;
             }
             Node* current_p = head;
@@ -40,6 +50,9 @@ class LinkedList {
             //reached the end
             //add newNode
             current_p->setNext(newNode);
+            newNode->setPrev(current_p);
+            //set as tail
+            setTail(newNode);
         }
         
         void printList(){
@@ -56,6 +69,20 @@ class LinkedList {
             }
         }
         
+        void printListBackwards(){ 
+            //check for NULL tail
+            if (tail == NULL) {
+                cout << "The list is empty" << endl;
+                return;
+            }
+            cout << "List Contents:" << endl;
+            Node* current_p = tail;
+            while (current_p != NULL){
+                cout << current_p->getValue() << endl;
+                current_p = current_p->getPrev();
+            }
+        }
+        
         void sayHi() {
             cout << "Hi" << endl;
         }
@@ -65,4 +92,5 @@ class LinkedList {
     private:
         string name;
         Node* head = NULL;
+        Node* tail = NULL;
 };

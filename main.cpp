@@ -38,7 +38,9 @@ int main(int argc, char** argv) {
     
     list.printList();
     
-    cout << "Linkage complete" << endl;
+    cout << "Linkage complete\n" << endl;
+    
+    list.printListBackwards();
 //    cout << list.getHead().getNext().getValue() << endl;
 //    cout << list.getHead().getNext().getNext().getValue() << endl;
     list.sayHi();

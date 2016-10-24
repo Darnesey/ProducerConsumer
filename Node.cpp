@@ -27,12 +27,19 @@ public:
     void setNext(Node* next){
         this->next = next;
     }
+    Node* getPrev(){
+        return prev;
+    }
+    void setPrev(Node* prev) {
+        this->prev = prev;
+    }
     
     
     
 private:
     string value;
     Node* next = NULL;
+    Node* prev = NULL;
     
     
 };
