@@ -13,7 +13,7 @@
 
 #include <cstdlib>
 #include <iostream>
-#include "LinkedList.cpp"
+#include "ThreadProtection.cpp"
 #include <pthread.h>
 #include <stdint.h>
 #include <unistd.h>
@@ -38,10 +38,10 @@ int main(int argc, char** argv) {
 
     cout << "Heeloooo...." << endl;
     
-    Node first(1);
+    Node first(0);
     Node* pointer = &first;
-    Node second(2);
-    Node third(3);
+    Node second(4);
+    Node third(5);
     
     LinkedList list(pointer);
     pointer = &second;
@@ -53,6 +53,10 @@ int main(int argc, char** argv) {
     cout << "Linkage complete\n" << endl;
     list.remove(1);
     list.printListBackwards();
+    
+    
+    
+    
     
     int er;
     int i;

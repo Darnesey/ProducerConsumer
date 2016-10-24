@@ -19,6 +19,12 @@ class LinkedList {
             this->head = head;
             this->tail = head;
             size = 1;
+            //initialize to 3
+            while (size < 3) {
+                Node* next = new Node(size);
+                add(next);
+            }
+            
         }
         
         void setHead(Node* head){
@@ -93,6 +99,37 @@ class LinkedList {
             cout << "No node with value: " << value << " found" << endl;
         }
         
+        void removeFirstMod(int mod) {
+            if (head == NULL) {
+                cout << "The list is empy. Remove execution aborted" << endl;
+                return;
+            }
+            cout << "Attempting to remove number" << endl;
+            Node* current_p = head;
+            while (current_p != NULL){
+                // look for id!
+                if (current_p->getValue() % 2 == mod){ //universal operation for odd vs even
+                    cout << "Found " << current_p->getValue() << ". Removing..." << endl;
+                    if (current_p == head) {
+                        head = current_p->getNext();
+                        head->setPrev(NULL);
+                    } else if (current_p == tail) {
+                        tail = current_p->getPrev();
+                        tail->setNext(NULL);
+                    } else {
+                        current_p->getPrev()->setNext(current_p->getNext());
+                        current_p->getNext()->setPrev(current_p->getPrev());
+                    }
+                    current_p = NULL;
+                    return;
+                }
+                current_p = current_p->getNext();
+            }
+            cout << "No node with value matching parameters found" << endl;
+        }
+        
+       
+        
         void printList(){
             //check for NULL head
             if (head == NULL) {
@@ -122,7 +159,11 @@ class LinkedList {
         }
         
         void *sayHi(int *id) {
-            cout << "Hi thread ," << id << "!" << endl;
+            long tid;
+            tid = (long)id;
+
+             cout << "Hi thread " << tid << "!" << endl;
+             pthread_exit(NULL);
         }
         
         
