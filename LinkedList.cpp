@@ -83,8 +83,8 @@ class LinkedList {
             }
         }
         
-        void sayHi() {
-            cout << "Hi" << endl;
+        void *sayHi(int *id) {
+            cout << "Hi thread ," << id << "!" << endl;
         }
         
         

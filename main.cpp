@@ -14,7 +14,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "LinkedList.cpp"
-
+#include <pthread.h>
 
 
 using namespace std;
@@ -22,6 +22,12 @@ using namespace std;
 /*
  * 
  */
+
+void *sayHi(void *id){
+    cout << "Hi thread ," << id << "!" << endl;
+}
+
+
 int main(int argc, char** argv) {
 
     cout << "Heeloooo...." << endl;
@@ -41,9 +47,20 @@ int main(int argc, char** argv) {
     cout << "Linkage complete\n" << endl;
     
     list.printListBackwards();
-//    cout << list.getHead().getNext().getValue() << endl;
-//    cout << list.getHead().getNext().getNext().getValue() << endl;
-    list.sayHi();
+    
+    int er;
+    int i;
+    for(i = 0; i < 5; i++) {
+        pthread_t threads[5];
+        er = pthread_create(&threads[i], NULL, sayHi, (void *)i);
+        
+        if (er){
+            cout << "THREAD BUILD ERROR," << er << endl;
+            exit(-1);
+        }
+    }
+    
+    //list.sayHi(10);
     
     return 0;
 }
