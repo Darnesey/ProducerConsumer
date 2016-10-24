@@ -18,6 +18,7 @@ class LinkedList {
         {
             this->head = head;
             this->tail = head;
+            size = 1;
         }
         
         void setHead(Node* head){
@@ -42,6 +43,10 @@ class LinkedList {
                 setHead(newNode);
                 setTail(newNode);
                 return;
+            } else if (size >= 20) {
+                //Linked List full
+                cout << "Linked List full" << endl;
+                return;
             }
             Node* current_p = head;
             while (current_p->getNext() != NULL){
@@ -53,6 +58,39 @@ class LinkedList {
             newNode->setPrev(current_p);
             //set as tail
             setTail(newNode);
+            
+            //increment size
+            size++;
+        }
+        
+        void remove(int value) {
+            if (head == NULL) {
+                cout << "The list is empty. Remove execution aborted" << endl;
+                return;
+            }
+            cout << "Attempting to remove " << value << endl;
+            Node* current_p = head;
+            while (current_p != NULL){
+                // look for id!
+                if (current_p->getValue() == value){
+                    cout << "Found " << value << ". Removing..." << endl;
+                    if (current_p == head) {
+                        head = current_p->getNext();
+                        head->setPrev(NULL);
+                    } else if (current_p == tail) {
+                        tail = current_p->getPrev();
+                        tail->setNext(NULL);
+                    } else {
+                        current_p->getPrev()->setNext(current_p->getNext());
+                        current_p->getNext()->setPrev(current_p->getPrev());
+                    }
+                    current_p = NULL;
+                    return;
+                }
+                current_p = current_p->getNext();
+            }
+            //if code reaches here, element not found
+            cout << "No node with value: " << value << " found" << endl;
         }
         
         void printList(){
@@ -93,4 +131,5 @@ class LinkedList {
         string name;
         Node* head = NULL;
         Node* tail = NULL;
+        int size;
 };

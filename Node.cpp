@@ -12,13 +12,13 @@ using namespace std;
 class Node {
     
 public:
-    Node(string value){
+    Node(int value){
         this->value = value;
     }
-    Node(string value, Node* next) : value(value), next(next)
+    Node(int value, Node* next) : value(value), next(next)
     {    
     }
-    string getValue(){
+    int getValue(){
         return value;
     }
     Node* getNext(){
@@ -37,7 +37,7 @@ public:
     
     
 private:
-    string value;
+    int value;
     Node* next = NULL;
     Node* prev = NULL;
     

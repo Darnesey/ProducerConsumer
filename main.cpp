@@ -15,6 +15,8 @@
 #include <iostream>
 #include "LinkedList.cpp"
 #include <pthread.h>
+#include <stdint.h>
+#include <unistd.h>
 
 
 using namespace std;
@@ -24,7 +26,11 @@ using namespace std;
  */
 
 void *sayHi(void *id){
-    cout << "Hi thread ," << id << "!" << endl;
+   long tid;
+   tid = (long)id;
+   
+    cout << "Hi thread " << tid << "!" << endl;
+    pthread_exit(NULL);
 }
 
 
@@ -32,10 +38,10 @@ int main(int argc, char** argv) {
 
     cout << "Heeloooo...." << endl;
     
-    Node first("Ryan");
+    Node first(1);
     Node* pointer = &first;
-    Node second("James");
-    Node third("Darnell");
+    Node second(2);
+    Node third(3);
     
     LinkedList list(pointer);
     pointer = &second;
@@ -45,15 +51,15 @@ int main(int argc, char** argv) {
     list.printList();
     
     cout << "Linkage complete\n" << endl;
-    
+    list.remove(1);
     list.printListBackwards();
     
     int er;
     int i;
     for(i = 0; i < 5; i++) {
         pthread_t threads[5];
-        er = pthread_create(&threads[i], NULL, sayHi, (void *)i);
-        
+        er = pthread_create(&threads[i], NULL, sayHi, (void *)(uintptr_t)i);
+        usleep(0.01);
         if (er){
             cout << "THREAD BUILD ERROR," << er << endl;
             exit(-1);
