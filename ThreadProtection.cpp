@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 #include <cstdlib>
 #include <iostream>
@@ -28,7 +23,7 @@ public:
     
         int odd = 1;
         int even = 0;
-        pthread_create(&prod1, NULL, producer1, (void *) 0);
+        pthread_create(&prod1, NULL, producer1, 0);
         pthread_create(&prod2, NULL, producer, (void *)(uintptr_t)even);
         pthread_create(&cons1, NULL, consumer, (void *)(uintptr_t)odd);
         pthread_create(&cons2, NULL, consumer, (void *)(uintptr_t)even);
@@ -50,7 +45,7 @@ public:
         segSignalS();
         }
     }
-    void *producer1(void *) {
+    void *producer1(void *id) {
         
         while(true) {
         //segWait(s)
