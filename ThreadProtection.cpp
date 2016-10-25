@@ -28,9 +28,23 @@ public:
     
         int odd = 1;
         int even = 0;
-        pthread_create(&prod1, NULL, producer, (void *)1);
-        //pthread_create(&prod2, NULL, producer, (void *)0);
-        pthread_create(&cons1, NULL, consumer, (void *)1);
+        int er;
+        er = pthread_create(&prod1, NULL, producer, (void *)1);
+        if (er) {
+            cout << "THREAD BUILD ERROR," << er << endl;
+            exit(-1);
+        }
+        usleep(0.1);
+        er = pthread_create(&prod2, NULL, producer, (void *)0);
+        if (er) {
+            cout << "THREAD BUILD ERROR," << er << endl;
+            exit(-1);
+        }
+        er = pthread_create(&cons1, NULL, consumer, (void *)1);
+        if (er) {
+            cout << "THREAD BUILD ERROR," << er << endl;
+            exit(-1);
+        }
         //pthread_create(&cons2, NULL, consumer, (void *)0);
         
     }
@@ -51,7 +65,7 @@ public:
         segSignalDelay();
         //segSignal S
         segSignalS();
-        usleep(0.1);
+        //usleep(0.1);
         num--;
         }
         pthread_exit(NULL);
