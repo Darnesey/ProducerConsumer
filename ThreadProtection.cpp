@@ -8,11 +8,15 @@
 
 using namespace std;
 
+void *method(void *in) {
+    cout << "it works" << endl;
+}
+
 class ThreadProtection {
     
 public:
-    ThreadProtection(LinkedList* list){
-        this->list = list;
+    ThreadProtection(LinkedList* linklist){
+        list = linklist;
         s = 1;
         delay = 0;
         
@@ -23,13 +27,14 @@ public:
     
         int odd = 1;
         int even = 0;
-        pthread_create(&prod1, NULL, producer1, 0);
+        pthread_create(&prod1, NULL, method, (void *)0);
         pthread_create(&prod2, NULL, producer, (void *)(uintptr_t)even);
         pthread_create(&cons1, NULL, consumer, (void *)(uintptr_t)odd);
-        pthread_create(&cons2, NULL, consumer, (void *)(uintptr_t)even);
+//        pthread_create(&cons2, NULL, consumer, (void *)(uintptr_t)even);
         
     }
-    void *producer(void *id) {
+    
+    static void *producer(void *id) {
         long mod;
         mod = (long) id;
         while(true) {
@@ -45,7 +50,7 @@ public:
         segSignalS();
         }
     }
-    void *producer1(void *id) {
+    void producer1(void *id) {
         
         while(true) {
         //segWait(s)
@@ -61,7 +66,7 @@ public:
         }
     }
     
-    void *consumer(void *id) {
+    static void *consumer(void *id) {
         long mod;
         mod = (long) id;
         while(true) {
@@ -77,21 +82,21 @@ public:
         }
     }
     
-    void segWaitS() {
-        while (this->s == 0){
+    static void segWaitS() {
+        while (s == 0){
             /* do nothing */
         }
     }
-    void segWaitDelay(int delay) {
-        while (this->delay == delay) {
+    static void segWaitDelay(int oldDelay) {
+        while (delay == oldDelay) {
             /* do nothing */
         }
     }
     
-    void segSignalS(){
+    static void segSignalS(){
         s = (s + 1) % 2;
     }
-    void segSignalDelay() {
+    static void segSignalDelay() {
         delay = (delay + 1) % 2;
     }
     
@@ -99,7 +104,7 @@ public:
 private:
     static int s;
     static int delay;
-    LinkedList* list;
+    static LinkedList* list;
     
     
 };
