@@ -8,14 +8,15 @@
 
 using namespace std;
 
-void *method(void *in) {
-    cout << "it works" << endl;
-}
 
 class ThreadProtection {
     
 public:
     ThreadProtection(LinkedList* linklist){
+        
+    }
+    
+    static void startThreads(LinkedList* linklist) {
         list = linklist;
         s = 1;
         delay = 0;
@@ -27,28 +28,33 @@ public:
     
         int odd = 1;
         int even = 0;
-        pthread_create(&prod1, NULL, method, (void *)0);
-        pthread_create(&prod2, NULL, producer, (void *)(uintptr_t)even);
-        pthread_create(&cons1, NULL, consumer, (void *)(uintptr_t)odd);
-//        pthread_create(&cons2, NULL, consumer, (void *)(uintptr_t)even);
+        pthread_create(&prod1, NULL, producer, (void *)1);
+        //pthread_create(&prod2, NULL, producer, (void *)0);
+        pthread_create(&cons1, NULL, consumer, (void *)1);
+        //pthread_create(&cons2, NULL, consumer, (void *)0);
         
     }
     
     static void *producer(void *id) {
         long mod;
         mod = (long) id;
-        while(true) {
+        int num = 500;
+        while(num > 0) {
         //segWait(s)
         segWaitS();
         // produce stuff
         Node* newNode = new Node(mod, mod);
         list->add(newNode);
+        cout << "Added New Node" << endl;
         list->printList();
         //segSignalDelay
         segSignalDelay();
         //segSignal S
         segSignalS();
+        usleep(0.1);
+        num--;
         }
+        pthread_exit(NULL);
     }
     void producer1(void *id) {
         
@@ -76,9 +82,11 @@ public:
         segWaitS();
         //consume
         list->removeFirstMod(mod);
+        cout << "Removed a node" << endl;
         list->printList();
         //semSignal S
         segSignalS();
+        usleep(0.1);
         }
     }
     

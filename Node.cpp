@@ -10,7 +10,7 @@ class Node {
 public:
     Node(int value){
         srand(time(NULL) + value);
-        this->value = rand() % 40;
+        this->value =  rand() % 40;
     }
     Node(int value, int mod){
         srand(time(NULL) + value);

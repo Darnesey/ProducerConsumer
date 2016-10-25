@@ -19,13 +19,18 @@ using namespace std;
  * 
  */
 
-void *sayHi(void *id){
-   long tid;
-   tid = (long)id;
-   
-    cout << "Hi thread " << tid << "!" << endl;
-    pthread_exit(NULL);
-}
+
+    int ThreadProtection::s = 0;
+    int ThreadProtection::delay = 0;;
+    LinkedList* ThreadProtection::list = NULL;
+    
+//void *sayHi(void *id){
+//   long tid;
+//   tid = (long)id;
+//   
+//    cout << "Hi thread " << tid << "!" << endl;
+//    pthread_exit(NULL);
+//}
 
 
 int main(int argc, char** argv) {
@@ -34,35 +39,35 @@ int main(int argc, char** argv) {
     
     Node first(0);
     Node* pointer = &first;
-    Node second(4);
-    Node third(5);
+//    Node second(4);
+//    Node third(5);
     
     LinkedList list(pointer);
-    pointer = &second;
-    list.add(&second);
-    list.add(&third);
+//    pointer = &second;
+//    list.add(&second);
+//    list.add(&third);
     
     list.printList();
     
-    cout << "Linkage complete\n" << endl;
-    list.remove(1);
-    list.printListBackwards();
+    cout << "Linkage complete\nExecuting Threads" << endl;
+//    list.remove(1);
+//    list.printListBackwards();
+    
+    ThreadProtection::startThreads(&list);
     
     
     
-    
-    
-    int er;
-    int i;
-    for(i = 0; i < 5; i++) {
-        pthread_t threads[5];
-        er = pthread_create(&threads[i], NULL, sayHi, (void *)(uintptr_t)i);
-        usleep(0.01);
-        if (er){
-            cout << "THREAD BUILD ERROR," << er << endl;
-            exit(-1);
-        }
-    }
+//    int er;
+//    int i;
+//    for(i = 0; i < 5; i++) {
+//        pthread_t threads[5];
+//        er = pthread_create(&threads[i], NULL, sayHi, (void *)(uintptr_t)i);
+//        usleep(0.01);
+//        if (er){
+//            cout << "THREAD BUILD ERROR," << er << endl;
+//            exit(-1);
+//        }
+//    }
     
     //list.sayHi(10);
     
